@@ -87,6 +87,7 @@ This project is fully functional, but there are always opportunities for enhance
 - **Optimizations:** The actual code has some known issues that could be optimized for better performance and user experience.
 - **Listen to my actual music support:** Add a button to listen to the song that other users are listening to.
 - **Listen with me support:** Add support to listen the same songs as your friend (hard one).
+- **Use raw discord RPC instead of a library:** The current implementation uses a third-party library to interact with the Discord client. This could be replaced with the official Discord RPC API, which would allow for better performance and better integration.
 
 ---
 
