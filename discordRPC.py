@@ -1,7 +1,6 @@
 from time import sleep, time
 from pypresence import Presence
 from pypresence.types import ActivityType, StatusDisplayType
-from threading import Thread
 
 class DiscordRPC:
     def __init__(self, client_id: str):
@@ -16,7 +15,6 @@ class DiscordRPC:
             "image_url": str() or self.default_image,
             "current_time": int()
         }
-        self.thread = None
 
     def update_state(self, music_name: str, artist: str, image_url: str, music_time: int, current_time: int):
         if self.music_info["music_name"] == music_name and self.music_info["artist"] == artist and self.state == True:
