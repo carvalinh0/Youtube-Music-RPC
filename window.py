@@ -14,7 +14,6 @@ class API:
         print(string)
 
     def receive_data(self, data):
-        print(data)
         self.rpc.update_state(data.get("music_name"), data.get("music_artists"), data.get("image_url"), data.get("time_lenght_in_seconds"), data.get("current_time"))
 
     def resource_path(self, relative_path): # this function is used get the path in case of running the app as exe (after build)
