@@ -1,6 +1,6 @@
 <div align="center" style="padding: 20px">
-    <img src="https://play-lh.googleusercontent.com/0oO5sAneb9lJP6l8c6DH4aj6f85qNpplQVHmPmbbBxAukDnlO7DarDW0b-kEIHa8SQ" alt="Discord logo" width="128" style="border-radius: 100%; margin-right: 20px">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Youtube_Music_icon.svg/2048px-Youtube_Music_icon.svg.png" alt="Youtube Music logo" width="128" style="border-radius: 100%; margin-left: 20px">
+    <img src="https://play-lh.googleusercontent.com/0oO5sAneb9lJP6l8c6DH4aj6f85qNpplQVHmPmbbBxAukDnlO7DarDW0b-kEIHa8SQ" alt="Discord logo" width="128" style="border-radius: 100%">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Youtube_Music_icon.svg/2048px-Youtube_Music_icon.svg.png" alt="Youtube Music logo" width="128" style="border-radius: 100%">
 </div>
 
 # YouTube Music - Discord Rich Presence
@@ -21,10 +21,7 @@ A simple, lightweight desktop application that displays your currently playing s
 
 1. **Set up the Discord app to your account:** First, you should [**click here**](https://discord.com/oauth2/authorize?client_id=1437232956065190095&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.com%2Foauth2%2Fauthorize%3Fclient_id%3D1437232956065190095&scope=rpc) and add the Discord app to your account.
 2. **Download:** Go to the [**Releases Page**](https://github.com/carvalinh0/Youtube-Music-RPC/releases) on the right side of the repository page.
-3. **Get the app:** Download the file that corresponds to your OS from the latest release.
-4. **Run:**<br/> 
-On Windows: Double-click the executable file to run the application.<br/>
-On macOS/Linux: Open a terminal in the same directory as the executable file and run `chmod +x "./Youtube Music"` to make it executable, then run `"./Youtube Music"`
+3. **Get the app and install:** Download the file that corresponds to your OS from the latest release and install.
 5. **Log In:** A window with the YouTube Music website will open. Log in with your Google account.
 6. **Play Music:** Start playing any song. Your Discord status will automatically update to show what you're listening to.
 
