@@ -20,7 +20,7 @@ A simple, lightweight desktop application that displays your currently playing s
 ## 🚀 Installation & Usage
 
 1. **Set up the Discord app to your account:** First, you should [**click here**](https://discord.com/oauth2/authorize?client_id=1437232956065190095&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.com%2Foauth2%2Fauthorize%3Fclient_id%3D1437232956065190095&scope=rpc) and add the Discord app to your account.
-2. **Download:** Go to the [**Releases Page**](https://github.com/carvalinh0/Youtube-Music-RPC/releases) on the right side of the repository page.
+2. **Download:** Go to the [**Releases Page**](https://github.com/carvalinh0/youtube-music/releases) on the right side of the repository page.
 3. **Get the app and install:** Download the file that corresponds to your OS from the latest release and install.<br/>
    - Windows: Use the .msi file to install the app.
    - Linux: Download the .rpm or .deb file and install it using your package manager.
@@ -43,8 +43,8 @@ If you want to run the application from the source code or contribute to its dev
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/carvalinh0/youtube-music-rpc.git
-    cd ./Youtube-Music-RPC
+    git clone https://github.com/carvalinh0/youtube-music.git
+    cd ./youtube-music
     ```
 
 2. **Run the application in development mode:**
@@ -68,12 +68,12 @@ The final executable will be located in the `src-tauri/target/release/bundle/` d
 
 This project is fully functional, but there are always opportunities for enhancement. Here are a few known ideas:
 
-- **System Tray Icon:** Instead of just closing, the application could be minimized to the system tray for a more seamless background experience. This would allow users to show/hide the window easily.
+- **System Tray Icon:** Instead of just closing, the application could be minimized to the system tray for a more seamless background experience. This would allow users to easily show/hide the window.
 - **Configuration:** Add a simple script in the site to allow users to set preferences, such as whether the app should start minimized or if the debug console should be enabled.
 ---
 
 ## Known Issues
-You can see the issues that were detected/reported on [Repository Issues Page](https://github.com/carvalinh0/youtube-music-rpc/issues).
+You can see the issues that were detected/reported on [Repository Issues Page](https://github.com/carvalinh0/youtube-music/issues).
 
 ---
 
