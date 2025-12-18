@@ -35,8 +35,8 @@ fn update_music_data(state: State<'_, DiscordState>, data: MusicPayload) {
     }
 
     if let Some(client) = client_guard.as_mut() {
-        let details = format!("{}", data.artist);
-        let state_text = format!("{}", data.title);
+        let details = format!("{}", data.title);
+        let state_text = format!("{}", data.artist);
         let now = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap()
@@ -48,13 +48,12 @@ fn update_music_data(state: State<'_, DiscordState>, data: MusicPayload) {
             .details(&details)
             .state(&state_text)
             .assets(activity::Assets::new()
-                .large_image(&*data.image_url)
-                .large_text("YouTube Music"))
+                .large_image(&*data.image_url))
             .timestamps(activity::Timestamps::new()
                 .start(start_timestamp)
                 .end(end_timestamp))
             .activity_type(activity::ActivityType::Listening)
-            .status_display_type(activity::StatusDisplayType::Details);
+            .status_display_type(activity::StatusDisplayType::State);
 
         if let Err(e) = client.set_activity(payload) {
             println!("Error uploading to discord: {}", e);
@@ -63,7 +62,6 @@ fn update_music_data(state: State<'_, DiscordState>, data: MusicPayload) {
     }
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .manage(DiscordState { client: Mutex::new(None) })
@@ -78,9 +76,6 @@ pub fn run() {
                 let path = PathBuf::from("src/script.js");
                 fs::read_to_string(path).unwrap_or_default()
             };
-
-            #[cfg(not(debug_assertions))]
-            let script = include_str!("script.js");
 
             window.eval(&*script).unwrap();
             Ok(())
