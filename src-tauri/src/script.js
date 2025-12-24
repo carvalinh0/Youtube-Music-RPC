@@ -1,9 +1,10 @@
 console.log("Script loaded");
 
 function get_music_data() {
-    const title = document.getElementsByClassName("title style-scope ytmusic-player-bar")[0].textContent
-    const artist = document.getElementsByClassName("byline style-scope ytmusic-player-bar complex-string")[0].textContent.split(" • ")[0]
-    const imageUrl = document.querySelector("#thumbnail > img:nth-child(1)").src || document.getElementsByClassName("image style-scope ytmusic-player-bar")[0].src
+    const metadata = navigator.mediaSession.metadata;
+    const title = metadata.title
+    const artist = metadata.artist
+    const imageUrl = metadata.artwork[0].src
     const totalTimeInSeconds = document.getElementById("progress-bar").max
     const currentTimeInSeconds = document.getElementById("progress-bar").value
 
@@ -33,7 +34,7 @@ const observer = new MutationObserver((mutations) => {
         lastCurrentTime = data.currentTimeInSeconds
     }
 
-    //console.log(JSON.stringify(data, null, 2));
+    //console.debug(JSON.stringify(data, null, 2));
 });
 
 function verifyBarExistence(obs, intervalId) {
