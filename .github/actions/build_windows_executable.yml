@@ -1,4 +1,0 @@
-name: build
-description: build the python project to executable file
-runs:
-  using:

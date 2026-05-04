@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Custom Widget</title>
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                background: transparent;
+            }
+            #widget-root {
+                width: 100%;
+                height: 100%;
+            }
+            #widget-error {
+                display: none;
+                position: fixed;
+                inset: 0;
+                align-items: center;
+                justify-content: center;
+                font-family: monospace;
+                font-size: 12px;
+                color: #ff6b6b;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 20px;
+                text-align: center;
+            }
+            #widget-error.visible {
+                display: flex;
+            }
+            .disconnected {
+                opacity: 0 !important;
+                transition: opacity 0.5s ease-in-out;
+                pointer-events: none; /* Só pra garantir que nada invisível seja clicável */
+            }
+        </style>
+    </head>
+    <body>
+        <div id="widget-root"></div>
+        <div id="widget-error"></div>
+
+        <script>
+            (function () {
+                "use strict";
+
+                const params = new URLSearchParams(location.search);
+                const port = params.get("port") || location.port || "8765";
+                const BASE = "http://localhost:" + port;
+
+                const errorEl = document.getElementById("widget-error");
+
+                function showError(msg) {
+                    errorEl.textContent = "⚠ Widget error: " + msg;
+                    errorEl.classList.add("visible");
+                    setTimeout(function () {
+                        errorEl.classList.remove("visible");
+                    }, 4000);
+                }
+
+                /** Format seconds -> m:ss or h:mm:ss */
+                function formatTime(totalSeconds) {
+                    var s = Math.floor(totalSeconds % 60);
+                    var m = Math.floor((totalSeconds / 60) % 60);
+                    var h = Math.floor(totalSeconds / 3600);
+                    var pad = function (n) {
+                        return String(n).padStart(2, "0");
+                    };
+                    return h > 0
+                        ? h + ":" + pad(m) + ":" + pad(s)
+                        : m + ":" + pad(s);
+                }
+
+                // Polling
+                function startPolling() {
+                    async function poll() {
+                        try {
+                            var res = await fetch(BASE + "/state", {
+                                cache: "no-store",
+                            });
+                            var data = await res.json();
+
+                            if (typeof window.renderWidget === "function") {
+                                try {
+                                    window.renderWidget({
+                                        title: data.title || "",
+                                        artist: data.artist || "",
+                                        image_url: data.image_url || "",
+                                        current_time_in_seconds:
+                                            data.current_time_in_seconds || 0,
+                                        total_time_in_seconds:
+                                            data.total_time_length_in_seconds ||
+                                            0,
+                                        is_playing: data.is_playing || false,
+                                        formatTime: formatTime,
+                                    });
+                                } catch (renderErr) {
+                                    showError(renderErr.message);
+                                }
+                            }
+                            catchCount = 0; // reset on success
+                            document.body.classList.remove("disconnected");
+                        } catch (_) {}
+                    }
+
+                    setInterval(poll, 1000);
+                    poll();
+                }
+
+                // Load user widget code
+                fetch(BASE + "/widget-code", { cache: "no-store" })
+                    .then(function (r) {
+                        if (!r.ok) throw new Error("HTTP " + r.status);
+                        return r.text();
+                    })
+                    .then(function (code) {
+                        try {
+                            var script = document.createElement("script");
+                            script.textContent = code;
+                            document.head.appendChild(script);
+                        } catch (e) {
+                            showError("Syntax error — " + e.message);
+                        }
+                        startPolling();
+                    })
+                    .catch(function (e) {
+                        console.error(
+                            "[widget-host] Failed to load widget code:",
+                            e,
+                        );
+                    });
+            })();
+        </script>
+    </body>
+</html>

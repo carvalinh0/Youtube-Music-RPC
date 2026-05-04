@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>YouTube Music – Overlay</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            :root {
+                --bg: #0d0d14;
+                --accent: #6441a5;
+                --text: #ffffff;
+                --subtext: #9a9ab0;
+            }
+
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                background: transparent;
+            }
+
+            #overlay {
+                position: relative;
+                width: 420px;
+                background: var(--bg);
+                border-radius: 20px;
+                padding: 28px 28px 24px;
+                font-family: "DM Sans", sans-serif;
+                overflow: hidden;
+                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+
+                opacity: 0;
+                transform: translateY(10px);
+                transition:
+                    opacity 0.5s ease,
+                    transform 0.5s ease;
+            }
+
+            #overlay.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            #overlay::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(
+                    ellipse 80% 60% at 50% 0%,
+                    color-mix(in srgb, var(--accent) 18%, transparent) 0%,
+                    transparent 70%
+                );
+                pointer-events: none;
+            }
+
+            .vinyl-section {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 22px;
+            }
+
+            .tonearm-wrap {
+                position: relative;
+                width: 260px;
+                height: 260px;
+            }
+
+            .vinyl {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                overflow: hidden;
+                cursor: default;
+
+                animation: spin 8s linear infinite;
+                animation-play-state: paused;
+            }
+
+            .vinyl.spinning {
+                animation-play-state: running;
+            }
+
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .vinyl-art {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background-image: var(--album-art, none);
+                background-size: cover;
+                background-position: center;
+                background-color: #1a1a28;
+            }
+
+            .vinyl-grooves {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: conic-gradient(
+                    rgba(255, 255, 255, 0.03) 0deg,
+                    rgba(0, 0, 0, 0.1) 1deg,
+                    rgba(255, 255, 255, 0.03) 2deg,
+                    rgba(0, 0, 0, 0.1) 3deg,
+                    rgba(255, 255, 255, 0.03) 4deg,
+                    rgba(0, 0, 0, 0.1) 5deg,
+                    rgba(255, 255, 255, 0.03) 6deg,
+                    rgba(0, 0, 0, 0.1) 7deg,
+                    rgba(255, 255, 255, 0.03) 8deg,
+                    rgba(0, 0, 0, 0.1) 9deg,
+                    rgba(255, 255, 255, 0.03) 10deg,
+                    rgba(0, 0, 0, 0.1) 11deg,
+                    rgba(255, 255, 255, 0.03) 12deg,
+                    rgba(0, 0, 0, 0.1) 14deg,
+                    rgba(255, 255, 255, 0.03) 15deg,
+                    rgba(0, 0, 0, 0.1) 17deg,
+                    rgba(255, 255, 255, 0.03) 18deg,
+                    rgba(0, 0, 0, 0.1) 20deg,
+                    rgba(255, 255, 255, 0.03) 21deg,
+                    rgba(0, 0, 0, 0.1) 23deg,
+                    rgba(255, 255, 255, 0.03) 24deg,
+                    rgba(0, 0, 0, 0.1) 26deg,
+                    rgba(255, 255, 255, 0.03) 27deg,
+                    rgba(0, 0, 0, 0.1) 29deg,
+                    rgba(255, 255, 255, 0.03) 30deg,
+                    rgba(0, 0, 0, 0.1) 32deg,
+                    rgba(255, 255, 255, 0.03) 33deg,
+                    rgba(0, 0, 0, 0.1) 35deg,
+                    rgba(255, 255, 255, 0.03) 36deg,
+                    rgba(0, 0, 0, 0.1) 38deg,
+                    rgba(255, 255, 255, 0.03) 39deg,
+                    rgba(0, 0, 0, 0.1) 42deg,
+                    rgba(255, 255, 255, 0.03) 43deg,
+                    rgba(0, 0, 0, 0.1) 46deg,
+                    rgba(255, 255, 255, 0.03) 47deg,
+                    rgba(0, 0, 0, 0.1) 50deg,
+                    rgba(255, 255, 255, 0.03) 51deg,
+                    rgba(0, 0, 0, 0.1) 54deg,
+                    rgba(255, 255, 255, 0.03) 55deg,
+                    rgba(0, 0, 0, 0.1) 58deg,
+                    rgba(255, 255, 255, 0.03) 59deg,
+                    rgba(0, 0, 0, 0.1) 62deg,
+                    rgba(255, 255, 255, 0.03) 63deg,
+                    rgba(0, 0, 0, 0.1) 66deg,
+                    rgba(255, 255, 255, 0.03) 67deg,
+                    rgba(0, 0, 0, 0.1) 70deg,
+                    rgba(255, 255, 255, 0.03) 71deg,
+                    rgba(0, 0, 0, 0.1) 74deg,
+                    rgba(255, 255, 255, 0.03) 75deg,
+                    rgba(0, 0, 0, 0.1) 78deg,
+                    rgba(255, 255, 255, 0.03) 79deg,
+                    rgba(0, 0, 0, 0.1) 82deg,
+                    rgba(255, 255, 255, 0.03) 83deg,
+                    rgba(0, 0, 0, 0.1) 86deg,
+                    rgba(255, 255, 255, 0.03) 87deg,
+                    rgba(0, 0, 0, 0.1) 90deg,
+                    rgba(255, 255, 255, 0.03) 91deg,
+                    rgba(0, 0, 0, 0.1) 95deg,
+                    rgba(255, 255, 255, 0.03) 96deg,
+                    rgba(0, 0, 0, 0.1) 100deg,
+                    rgba(255, 255, 255, 0.03) 101deg,
+                    rgba(0, 0, 0, 0.1) 105deg,
+                    rgba(255, 255, 255, 0.03) 106deg,
+                    rgba(0, 0, 0, 0.1) 110deg,
+                    rgba(255, 255, 255, 0.03) 111deg,
+                    rgba(0, 0, 0, 0.1) 115deg,
+                    rgba(255, 255, 255, 0.03) 116deg,
+                    rgba(0, 0, 0, 0.1) 120deg,
+                    rgba(255, 255, 255, 0.03) 121deg,
+                    rgba(0, 0, 0, 0.1) 125deg,
+                    rgba(255, 255, 255, 0.03) 126deg,
+                    rgba(0, 0, 0, 0.1) 130deg,
+                    rgba(255, 255, 255, 0.03) 131deg,
+                    rgba(0, 0, 0, 0.1) 135deg,
+                    rgba(255, 255, 255, 0.03) 136deg,
+                    rgba(0, 0, 0, 0.1) 140deg,
+                    rgba(255, 255, 255, 0.03) 141deg,
+                    rgba(0, 0, 0, 0.1) 145deg,
+                    rgba(255, 255, 255, 0.03) 146deg,
+                    rgba(0, 0, 0, 0.1) 150deg,
+                    rgba(255, 255, 255, 0.03) 151deg,
+                    rgba(0, 0, 0, 0.1) 155deg,
+                    rgba(255, 255, 255, 0.03) 156deg,
+                    rgba(0, 0, 0, 0.1) 160deg,
+                    rgba(255, 255, 255, 0.03) 161deg,
+                    rgba(0, 0, 0, 0.1) 165deg,
+                    rgba(255, 255, 255, 0.03) 166deg,
+                    rgba(0, 0, 0, 0.1) 170deg,
+                    rgba(255, 255, 255, 0.03) 171deg,
+                    rgba(0, 0, 0, 0.1) 175deg,
+                    rgba(255, 255, 255, 0.03) 176deg,
+                    rgba(0, 0, 0, 0.1) 180deg,
+                    rgba(255, 255, 255, 0.03) 181deg,
+                    rgba(0, 0, 0, 0.1) 185deg,
+                    rgba(255, 255, 255, 0.03) 186deg,
+                    rgba(0, 0, 0, 0.1) 190deg,
+                    rgba(255, 255, 255, 0.03) 191deg,
+                    rgba(0, 0, 0, 0.1) 195deg,
+                    rgba(255, 255, 255, 0.03) 196deg,
+                    rgba(0, 0, 0, 0.1) 200deg,
+                    rgba(255, 255, 255, 0.03) 201deg,
+                    rgba(0, 0, 0, 0.1) 205deg,
+                    rgba(255, 255, 255, 0.03) 206deg,
+                    rgba(0, 0, 0, 0.1) 210deg,
+                    rgba(255, 255, 255, 0.03) 211deg,
+                    rgba(0, 0, 0, 0.1) 215deg,
+                    rgba(255, 255, 255, 0.03) 216deg,
+                    rgba(0, 0, 0, 0.1) 220deg,
+                    rgba(255, 255, 255, 0.03) 221deg,
+                    rgba(0, 0, 0, 0.1) 225deg,
+                    rgba(255, 255, 255, 0.03) 226deg,
+                    rgba(0, 0, 0, 0.1) 230deg,
+                    rgba(255, 255, 255, 0.03) 231deg,
+                    rgba(0, 0, 0, 0.1) 235deg,
+                    rgba(255, 255, 255, 0.03) 236deg,
+                    rgba(0, 0, 0, 0.1) 240deg,
+                    rgba(255, 255, 255, 0.03) 241deg,
+                    rgba(0, 0, 0, 0.1) 245deg,
+                    rgba(255, 255, 255, 0.03) 246deg,
+                    rgba(0, 0, 0, 0.1) 250deg,
+                    rgba(255, 255, 255, 0.03) 251deg,
+                    rgba(0, 0, 0, 0.1) 255deg,
+                    rgba(255, 255, 255, 0.03) 256deg,
+                    rgba(0, 0, 0, 0.1) 260deg,
+                    rgba(255, 255, 255, 0.03) 261deg,
+                    rgba(0, 0, 0, 0.1) 265deg,
+                    rgba(255, 255, 255, 0.03) 266deg,
+                    rgba(0, 0, 0, 0.1) 270deg,
+                    rgba(255, 255, 255, 0.03) 271deg,
+                    rgba(0, 0, 0, 0.1) 275deg,
+                    rgba(255, 255, 255, 0.03) 276deg,
+                    rgba(0, 0, 0, 0.1) 280deg,
+                    rgba(255, 255, 255, 0.03) 281deg,
+                    rgba(0, 0, 0, 0.1) 285deg,
+                    rgba(255, 255, 255, 0.03) 286deg,
+                    rgba(0, 0, 0, 0.1) 290deg,
+                    rgba(255, 255, 255, 0.03) 291deg,
+                    rgba(0, 0, 0, 0.1) 295deg,
+                    rgba(255, 255, 255, 0.03) 296deg,
+                    rgba(0, 0, 0, 0.1) 300deg,
+                    rgba(255, 255, 255, 0.03) 301deg,
+                    rgba(0, 0, 0, 0.1) 305deg,
+                    rgba(255, 255, 255, 0.03) 306deg,
+                    rgba(0, 0, 0, 0.1) 310deg,
+                    rgba(255, 255, 255, 0.03) 311deg,
+                    rgba(0, 0, 0, 0.1) 315deg,
+                    rgba(255, 255, 255, 0.03) 316deg,
+                    rgba(0, 0, 0, 0.1) 320deg,
+                    rgba(255, 255, 255, 0.03) 321deg,
+                    rgba(0, 0, 0, 0.1) 325deg,
+                    rgba(255, 255, 255, 0.03) 326deg,
+                    rgba(0, 0, 0, 0.1) 330deg,
+                    rgba(255, 255, 255, 0.03) 331deg,
+                    rgba(0, 0, 0, 0.1) 335deg,
+                    rgba(255, 255, 255, 0.03) 336deg,
+                    rgba(0, 0, 0, 0.1) 340deg,
+                    rgba(255, 255, 255, 0.03) 341deg,
+                    rgba(0, 0, 0, 0.1) 345deg,
+                    rgba(255, 255, 255, 0.03) 346deg,
+                    rgba(0, 0, 0, 0.1) 350deg,
+                    rgba(255, 255, 255, 0.03) 351deg,
+                    rgba(0, 0, 0, 0.1) 355deg,
+                    rgba(255, 255, 255, 0.03) 356deg,
+                    rgba(0, 0, 0, 0.1) 360deg
+                );
+                mix-blend-mode: overlay;
+            }
+
+            .vinyl-mask {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle at 50%,
+                    transparent 0%,
+                    transparent 30%,
+                    rgba(0, 0, 0, 0.55) 31%,
+                    rgba(0, 0, 0, 0.55) 33%,
+                    rgba(0, 0, 0, 0.3) 34%,
+                    rgba(0, 0, 0, 0.5) 36%,
+                    rgba(0, 0, 0, 0.3) 37%,
+                    rgba(0, 0, 0, 0.52) 39%,
+                    rgba(0, 0, 0, 0.28) 41%,
+                    rgba(0, 0, 0, 0.55) 43%,
+                    rgba(0, 0, 0, 0.28) 45%,
+                    rgba(0, 0, 0, 0.56) 47%,
+                    rgba(0, 0, 0, 0.25) 49%,
+                    rgba(0, 0, 0, 0.58) 51%,
+                    rgba(0, 0, 0, 0.25) 53%,
+                    rgba(0, 0, 0, 0.6) 55%,
+                    rgba(0, 0, 0, 0.22) 57%,
+                    rgba(0, 0, 0, 0.62) 59%,
+                    rgba(0, 0, 0, 0.2) 61%,
+                    rgba(0, 0, 0, 0.65) 63%,
+                    rgba(0, 0, 0, 0.18) 65%,
+                    rgba(0, 0, 0, 0.68) 67%,
+                    rgba(0, 0, 0, 0.15) 69%,
+                    rgba(0, 0, 0, 0.7) 71%,
+                    rgba(0, 0, 0, 0.12) 73%,
+                    rgba(0, 0, 0, 0.72) 75%,
+                    rgba(0, 0, 0, 0.1) 77%,
+                    rgba(0, 0, 0, 0.75) 79%,
+                    rgba(0, 0, 0, 0.08) 81%,
+                    rgba(0, 0, 0, 0.78) 83%,
+                    rgba(0, 0, 0, 0.05) 85%,
+                    rgba(0, 0, 0, 0.8) 87%,
+                    rgba(0, 0, 0, 0.82) 90%,
+                    rgba(0, 0, 0, 0.88) 95%,
+                    rgba(0, 0, 0, 0.92) 100%
+                );
+            }
+
+            .vinyl-gloss {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                background: radial-gradient(
+                    ellipse 60% 40% at 38% 30%,
+                    rgba(255, 255, 255, 0.12) 0%,
+                    transparent 60%
+                );
+                pointer-events: none;
+            }
+
+            .vinyl-label {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 56%;
+                height: 56%;
+                border-radius: 50%;
+                overflow: hidden;
+                border: 2px solid rgba(255, 255, 255, 0.15);
+                box-shadow:
+                    0 0 0 1px rgba(0, 0, 0, 0.5),
+                    inset 0 0 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .vinyl-label-art {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            .vinyl-spindle {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 7%;
+                height: 7%;
+                border-radius: 50%;
+                background: radial-gradient(circle, #d0d0d0, #888);
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+                z-index: 10;
+            }
+
+            .needle {
+                position: absolute;
+                top: -2px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 6px;
+                height: 28px;
+                background: linear-gradient(
+                    180deg,
+                    var(--accent),
+                    rgba(255, 255, 255, 0.5)
+                );
+                border-radius: 0 0 3px 3px;
+                z-index: 20;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            }
+
+            .needle::before {
+                content: "";
+                position: absolute;
+                top: -3px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background: var(--accent);
+                box-shadow: 0 0 8px var(--accent);
+            }
+
+            .song-info {
+                text-align: center;
+                margin-bottom: 18px;
+                padding: 0 4px;
+            }
+
+            .song-title {
+                font-family: "DM Serif Display", serif;
+                font-size: 22px;
+                color: var(--text);
+                line-height: 1.2;
+                letter-spacing: -0.01em;
+                margin-bottom: 5px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .song-meta {
+                font-size: 13px;
+                color: var(--subtext);
+                font-weight: 300;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .song-meta .sep {
+                margin: 0 6px;
+                opacity: 0.4;
+            }
+
+            .progress-section {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .time-label {
+                font-size: 11px;
+                color: var(--subtext);
+                font-variant-numeric: tabular-nums;
+                min-width: 36px;
+                flex-shrink: 0;
+            }
+
+            .time-label.end {
+                text-align: right;
+            }
+
+            .progress-track {
+                flex: 1;
+                height: 3px;
+                background: rgba(255, 255, 255, 0.12);
+                border-radius: 3px;
+                overflow: visible;
+                position: relative;
+            }
+
+            .progress-fill {
+                height: 100%;
+                border-radius: 3px;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    color-mix(in srgb, var(--accent) 60%, white)
+                );
+                width: 0;
+                transition: width 0.8s linear;
+                position: relative;
+            }
+
+            .progress-fill::after {
+                content: "";
+                position: absolute;
+                right: -4px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                background: var(--text);
+                box-shadow: 0 0 6px var(--accent);
+                opacity: 0;
+                transition: opacity 0.2s;
+            }
+
+            #overlay.visible .progress-fill::after {
+                opacity: 1;
+            }
+
+            #idle-msg {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                color: rgba(255, 255, 255, 0.2);
+                font-size: 13px;
+            }
+
+            #idle-msg svg {
+                opacity: 0.15;
+            }
+
+            #overlay::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 20px;
+                box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+                pointer-events: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="overlay">
+            <div class="vinyl-section">
+                <div class="tonearm-wrap">
+                    <div class="needle"></div>
+
+                    <div class="vinyl" id="vinyl-disk">
+                        <div class="vinyl-art" id="vinyl-art"></div>
+                        <div class="vinyl-grooves"></div>
+                        <div class="vinyl-mask"></div>
+
+                        <div class="vinyl-label">
+                            <img
+                                class="vinyl-label-art"
+                                id="vinyl-label-img"
+                                src=""
+                                alt="Album art"
+                            />
+                        </div>
+
+                        <div class="vinyl-gloss"></div>
+                        <div class="vinyl-spindle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="song-info">
+                <div class="song-title" id="song-title">—</div>
+                <div class="song-meta">
+                    <span id="song-artist"></span>
+                    <span class="sep" id="meta-sep" style="display: none"
+                        >•</span
+                    >
+                    <span id="song-album"></span>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <span class="time-label start" id="time-current">0:00</span>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="time-label end" id="time-total">0:00</span>
+            </div>
+
+            <div id="idle-msg" style="display: none">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+                    <path
+                        d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4
+                 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"
+                    />
+                </svg>
+                <span>Nenhuma música tocando</span>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                const params = new URLSearchParams(location.search);
+
+                const port = params.get("port") || "8765";
+                const bg = params.get("bg") || null;
+                const accent = params.get("accent") || null;
+                const text = params.get("text") || null;
+                const subtext = params.get("subtext") || null;
+
+                window._overlayPort = port;
+
+                const root = document.documentElement;
+                if (bg) root.style.setProperty("--bg", bg);
+                if (accent) root.style.setProperty("--accent", accent);
+                if (text) root.style.setProperty("--text", text);
+                if (subtext) root.style.setProperty("--subtext", subtext);
+            })();
+
+            function formatTime(totalSeconds) {
+                const s = Math.floor(totalSeconds % 60);
+                const m = Math.floor((totalSeconds / 60) % 60);
+                const h = Math.floor(totalSeconds / 3600);
+                const pad = (n) => String(n).padStart(2, "0");
+
+                if (h > 0) return `${h}:${pad(m)}:${pad(s)}`;
+                return `${m}:${pad(s)}`;
+            }
+
+            const overlayEl = document.getElementById("overlay");
+            const vinylDisk = document.getElementById("vinyl-disk");
+            const vinylArt = document.getElementById("vinyl-art");
+            const vinylLabelImg = document.getElementById("vinyl-label-img");
+            const songTitleEl = document.getElementById("song-title");
+            const songArtistEl = document.getElementById("song-artist");
+            const songAlbumEl = document.getElementById("song-album");
+            const metaSepEl = document.getElementById("meta-sep");
+            const timeCurrentEl = document.getElementById("time-current");
+            const timeTotalEl = document.getElementById("time-total");
+            const progressFill = document.getElementById("progress-fill");
+            const idleMsg = document.getElementById("idle-msg");
+
+            let state = {
+                title: "",
+                album: "",
+                artist: "",
+                thumbnail: "",
+                currentTime: 0,
+                duration: 0,
+                isPlaying: false,
+            };
+
+            let lastThumbnail = "";
+            let catchCount = 0;
+
+            function applyConfig(config) {
+                if (!config) return;
+                const root = document.documentElement;
+                if (config.overlayBg)
+                    root.style.setProperty("--bg", config.overlayBg);
+                if (config.overlayAccent)
+                    root.style.setProperty("--accent", config.overlayAccent);
+                if (config.overlayText)
+                    root.style.setProperty("--text", config.overlayText);
+                if (config.overlaySubtext)
+                    root.style.setProperty("--subtext", config.overlaySubtext);
+            }
+
+            function updateUI(data) {
+                const hasMusic = data.title && data.title.trim() !== "";
+
+                if (hasMusic) {
+                    overlayEl.classList.add("visible");
+                    idleMsg.style.display = "none";
+                } else {
+                    overlayEl.classList.remove("visible");
+                    idleMsg.style.display = "flex";
+                    return;
+                }
+
+                songTitleEl.textContent = data.title || "—";
+
+                songArtistEl.textContent = data.artist || "";
+                songAlbumEl.textContent = data.album || "";
+                metaSepEl.style.display =
+                    data.artist && data.album ? "" : "none";
+
+                const thumb = data.image_url;
+                if (thumb && thumb !== lastThumbnail) {
+                    lastThumbnail = thumb;
+                    vinylArt.style.backgroundImage = `url("${thumb}")`;
+                    vinylLabelImg.src = thumb;
+                }
+
+                const cur = Number(data.current_time_in_seconds) || 0;
+                const tot = Number(data.total_time_length_in_seconds) || 0;
+                const pct = tot > 0 ? Math.min((cur / tot) * 100, 100) : 0;
+                progressFill.style.width = `${pct}%`;
+                timeCurrentEl.textContent = formatTime(cur);
+                timeTotalEl.textContent = formatTime(tot);
+
+                if (data.is_playing) {
+                    // (Lembre de usar is_playing ou isPlaying dependendo de como ficou no seu Rust)
+                    vinylDisk.style.animationPlayState = "running";
+                } else {
+                    vinylDisk.style.animationPlayState = "paused";
+                }
+            }
+
+            async function poll() {
+                const url = `http://localhost:${window._overlayPort}/state`;
+                try {
+                    const res = await fetch(url, { cache: "no-store" });
+
+                    if (!res.ok) throw new Error("Failed to fetch state");
+
+                    const data = await res.json();
+
+                    if (data.config) applyConfig(data.config);
+
+                    overlayEl.classList.add("visible");
+                    idleMsg.style.display = "none";
+                    catchCount = 0;
+
+                    state = { ...state, ...data };
+                    updateUI(state);
+                } catch (_) {
+                    catchCount++;
+                    if (catchCount > 3) {
+                        overlayEl.classList.remove("visible");
+                        idleMsg.style.display = "flex";
+                    }
+                }
+            }
+
+            let lastPollAt = Date.now();
+
+            setInterval(() => {
+                if (
+                    state.is_playing &&
+                    state.total_time_length_in_seconds > 0
+                ) {
+                    const elapsed = (Date.now() - lastPollAt) / 1000;
+                    const interpolated = Math.min(
+                        state.current_time_in_seconds + elapsed,
+                        state.total_time_length_in_seconds,
+                    );
+                    const pct =
+                        (interpolated / state.total_time_length_in_seconds) *
+                        100;
+                    progressFill.style.width = `${pct}%`;
+                    timeCurrentEl.textContent = formatTime(interpolated);
+                }
+            }, 500);
+
+            setInterval(async () => {
+                lastPollAt = Date.now();
+                await poll();
+            }, 1000);
+
+            poll();
+        </script>
+    </body>
+</html>
