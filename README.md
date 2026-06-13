@@ -1,8 +1,8 @@
 <div align="center" style="padding: 20px">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Youtube_Music_icon.svg/2048px-Youtube_Music_icon.svg.png" alt="Youtube Music logo" width="128" style="border-radius: 100%">
+    <img src="https://music.youtube.com/img/on_platform_logo_dark.svg" alt="Youtube Music logo" width="128" style="border-radius: 100%">
 </div>
 
-# YouTube Music Client
+# YouTube Music Client (Unofficial)
 
 A simple, lightweight desktop application of YouTube Music with Discord Rich Presence integration.
 
@@ -10,7 +10,7 @@ A simple, lightweight desktop application of YouTube Music with Discord Rich Pre
 
 - **Super lightweight app**: Tauri provides a really lightweight application that runs as a standalone application with a minimal footprint, wrapping the official YouTube Music website.
 - **Real-time Status:** Automatically updates your Discord status when a new song starts.
-- **Overlay for your preferred stream application:** You can customize and set up your own music overlay for your livestream.
+- **Overlay for your preferred stream application:** You can customize and set up your own music overlay for your livestream; check [WIDGET_STYLES](https://github.com/carvalinh0/youtube-music/blob/main/WIDGET_STYLES.md) to see some examples.
 
 ---
 
@@ -23,7 +23,7 @@ A simple, lightweight desktop application of YouTube Music with Discord Rich Pre
    - Linux: Download the .rpm or .deb file and install it using your package manager.
    - MacOS: Download the .dmg file and drag it to the Applications folder.
 4. **Log In:** A window with the YouTube Music website will open. You can log in with your Google account.
-5. **Play Music:** Start playing any song. Your Discord status will automatically update to show what you're listening to (You can disable it if you want) and the overlay server will be automatically set up.
+5. **Play Music:** Start playing any song. Your Discord status will automatically update to show what you're listening to (you can disable it if you want), and the overlay server will be set up automatically.
 
 ---
 
@@ -67,7 +67,7 @@ The final executable will be located in the `src-tauri/target/release/bundle/` d
 This project is fully functional, but there are always opportunities for enhancement. Here are a few known ideas:
 
 - **System Tray Icon:** Instead of just closing, the application could be minimized to the system tray for a more seamless background experience. This would allow users to easily show/hide the window.
-- **Configuration:** Add a simple script in the site to allow users to set preferences, such as whether the app should start minimized or if the debug console should be enabled.
+- **Configuration:** Add a simple script on the site to allow users to set preferences, such as whether the app should start minimized or if the debug console should be enabled.
 
 ---
 
