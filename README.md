@@ -16,14 +16,13 @@ A simple, lightweight desktop application of YouTube Music with Discord Rich Pre
 
 ## 🚀 Installation & Usage
 
-1. **Set up the Discord app to your account (if you want the Discord RPC, otherwise you can skip this step):** First, you should [**click here**](https://discord.com/oauth2/authorize?client_id=1437232956065190095&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.com%2Foauth2%2Fauthorize%3Fclient_id%3D1437232956065190095&scope=rpc) and add the Discord app to your account.
-2. **Download:** Go to the [**Releases Page**](https://github.com/carvalinh0/youtube-music/releases) on the right side of the repository page.
-3. **Get the app and install:** Download the file that corresponds to your OS from the latest release and install.
+1. **Download:** Go to the [**Releases Page**](https://github.com/carvalinh0/youtube-music/releases) on the right side of the repository page.
+2. **Get the app and install:** Download the file that corresponds to your OS from the latest release and install.
    - Windows: Use the .msi file to install the app.
    - Linux: Download the .rpm or .deb file and install it using your package manager.
    - MacOS: Download the .dmg file and drag it to the Applications folder.
-4. **Log In:** A window with the YouTube Music website will open. You can log in with your Google account.
-5. **Play Music:** Start playing any song. Your Discord status will automatically update to show what you're listening to (you can disable it if you want), and the overlay server will be set up automatically.
+3. **Log In:** A window with the YouTube Music website will open. You can log in with your Google account.
+4. **Play Music:** Start playing any song. Your Discord status will automatically update to show what you're listening to (you can disable it if you want), and the overlay server will be set up automatically.
 
 ---
 
